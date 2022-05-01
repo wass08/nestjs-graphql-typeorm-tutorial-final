@@ -1,0 +1,129 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+interface Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  firstName: String!
+  lastName: String!
+  avatar: String
+}
+
+type Article {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  description: String!
+  image: String!
+  author: User
+  comments(skip: Int!, take: Int!, sortBy: PaginationSortBy): ArticleCommentsPagination!
+}
+
+input PaginationSortBy {
+  createdAt: SortDirection
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+type Comment {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  message: String!
+}
+
+type UserCreateOutput {
+  user: User!
+}
+
+type ArticleCommentsPagination {
+  totalCount: Float!
+  nodes: [Comment!]!
+}
+
+type ArticleCreateOutput {
+  article: Article!
+}
+
+type ArticleDeleteOutput {
+  articleId: ID!
+}
+
+type ArticleUpdateOutput {
+  article: Article!
+}
+
+type ArticlesPagination {
+  totalCount: Float!
+  nodes: [Article!]!
+}
+
+type AuthLoginOutput {
+  accessToken: String!
+}
+
+type CommentCreateOutput {
+  comment: Comment!
+}
+
+type Query {
+  sayHello: String!
+  articlesPagination(skip: Int!, take: Int!, sortBy: ArticlesPaginationSortBy): ArticlesPagination!
+}
+
+input ArticlesPaginationSortBy {
+  createdAt: SortDirection
+  title: SortDirection
+}
+
+type Mutation {
+  articleCreate(input: ArticleCreateInput!): ArticleCreateOutput!
+  articleUpdate(articleId: ID!, input: ArticleUpdateInput!): ArticleUpdateOutput!
+  articleDelete(articleId: ID!): ArticleDeleteOutput!
+  userCreate(input: UserCreateInput!): UserCreateOutput!
+  authLogin(username: String!, password: String!): AuthLoginOutput!
+  commentCreate(input: CommentCreateInput!): CommentCreateOutput!
+}
+
+input ArticleCreateInput {
+  title: String!
+  description: String!
+  image: String!
+}
+
+input ArticleUpdateInput {
+  title: String!
+  description: String!
+  image: String!
+}
+
+input UserCreateInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  avatar: String
+}
+
+input CommentCreateInput {
+  articleId: String!
+  message: String!
+}
